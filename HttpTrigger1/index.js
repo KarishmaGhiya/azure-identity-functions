@@ -13,7 +13,7 @@ module.exports = async function (context, req) {
         const result = await credential.getToken("https://vault.azure.net/");  
         console.log("DefaultAzureCredential", result);
     } catch(e) {
-        console.log("DefaultAzureCredential error", e.message);
+        console.error("DefaultAzureCredential error", e.message);
     }
 
     console.log("Trying the ManagedIdentityCredential");
@@ -22,7 +22,7 @@ module.exports = async function (context, req) {
         const result = await credential.getToken("https://vault.azure.net/");  
         console.log("ManagedIdentityCredential", result);
     } catch(e) {
-        console.log("ManagedIdentityCredential error", e.message);
+        console.error("ManagedIdentityCredential error", e.message);
     }
 
     console.log("Trying the loginWithAppServiceMSI");
@@ -33,7 +33,7 @@ module.exports = async function (context, req) {
         const result = await credential.getToken("https://vault.azure.net/");  
         console.log("loginWithAppServiceMSI", result);
     } catch(e) {
-        console.log("loginWithAppServiceMSI error", e.message);
+        console.error("loginWithAppServiceMSI error", e.message);
     }
 
     const name = (req.query.name || (req.body && req.body.name));
