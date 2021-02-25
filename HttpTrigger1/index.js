@@ -1,4 +1,5 @@
 const identity = require("@azure/identity");
+const msRestNodeauth = require("@azure/ms-rest-nodeauth");
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -22,6 +23,17 @@ module.exports = async function (context, req) {
         console.log("ManagedIdentityCredential", result);
     } catch(e) {
         console.log("ManagedIdentityCredential error", e.message);
+    }
+
+    console.log("Trying the loginWithAppServiceMSI");
+    try {
+        let credential = await msRestNodeauth.loginWithAppServiceMSI({
+            clientId: managedIdentityClientId
+        });
+        const result = await credential.getToken("https://vault.azure.net/");  
+        console.log("loginWithAppServiceMSI", result);
+    } catch(e) {
+        console.log("loginWithAppServiceMSI error", e.message);
     }
 
     const name = (req.query.name || (req.body && req.body.name));

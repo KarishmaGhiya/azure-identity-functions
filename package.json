@@ -7,7 +7,8 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/identity": "^1.2.4-alpha.20210223.1"
+    "@azure/identity": "^1.2.4-alpha.20210223.1",
+    "@azure/ms-rest-nodeauth": "^3.0.7"
   },
   "devDependencies": {}
 }
