@@ -4,7 +4,14 @@ module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     process.env.AZURE_LOG_LEVEL = "verbose";
-    const credential = new identity.DefaultAzureCredential({ managedIdentityClientId: "bf031ca3-5eac-4592-a92f-a08a77cbc610" });
+    const managedIdentityClientId = "bf031ca3-5eac-4592-a92f-a08a77cbc610";
+
+    console.log("Trying the DefaultAzureCredential");
+    let credential = new identity.DefaultAzureCredential({ managedIdentityClientId });
+    credential.getToken("https://vault.azure.net/").then(console.log).catch(console.error);  
+
+    console.log("Trying the ManagedIdentityCredential");
+    credential = new identity.ManagedIdentityCredential(managedIdentityClientId);
     credential.getToken("https://vault.azure.net/").then(console.log).catch(console.error);  
 
     const name = (req.query.name || (req.body && req.body.name));
