@@ -7,12 +7,22 @@ module.exports = async function (context, req) {
     const managedIdentityClientId = "bf031ca3-5eac-4592-a92f-a08a77cbc610";
 
     console.log("Trying the DefaultAzureCredential");
-    let credential = new identity.DefaultAzureCredential({ managedIdentityClientId });
-    credential.getToken("https://vault.azure.net/").then((...a) => console.log("DefaultAzureCredential", a)).catch(console.error);  
+    try {
+        let credential = new identity.DefaultAzureCredential({ managedIdentityClientId });
+        const result = await credential.getToken("https://vault.azure.net/");  
+        console.log("DefaultAzureCredential", result);
+    } catch(e) {
+        console.log("DefaultAzureCredential error", e.message);
+    }
 
     console.log("Trying the ManagedIdentityCredential");
-    credential = new identity.ManagedIdentityCredential(managedIdentityClientId);
-    credential.getToken("https://vault.azure.net/").then((...a) => console.log("ManagedIdentityCredential", a)).catch(console.error);  
+    try {
+        let credential = new identity.ManagedIdentityCredential(managedIdentityClientId);
+        const result = await credential.getToken("https://vault.azure.net/");  
+        console.log("ManagedIdentityCredential", result);
+    } catch(e) {
+        console.log("ManagedIdentityCredential error", e.message);
+    }
 
     const name = (req.query.name || (req.body && req.body.name));
     const responseMessage = name
