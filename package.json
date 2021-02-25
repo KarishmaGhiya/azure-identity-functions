@@ -2,21 +2,12 @@
   "name": "azure-identity-functions",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sadasant/azure-identity-functions.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sadasant/azure-identity-functions/issues"
-  },
-  "homepage": "https://github.com/sadasant/azure-identity-functions#readme",
   "dependencies": {
     "@azure/identity": "^1.2.4-alpha.20210223.1"
-  }
+  },
+  "devDependencies": {}
 }
