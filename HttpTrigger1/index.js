@@ -8,11 +8,11 @@ module.exports = async function (context, req) {
 
     console.log("Trying the DefaultAzureCredential");
     let credential = new identity.DefaultAzureCredential({ managedIdentityClientId });
-    credential.getToken("https://vault.azure.net/").then(console.log).catch(console.error);  
+    credential.getToken("https://vault.azure.net/").then((...a) => console.log("DefaultAzureCredential", a)).catch(console.error);  
 
     console.log("Trying the ManagedIdentityCredential");
     credential = new identity.ManagedIdentityCredential(managedIdentityClientId);
-    credential.getToken("https://vault.azure.net/").then(console.log).catch(console.error);  
+    credential.getToken("https://vault.azure.net/").then((...a) => console.log("ManagedIdentityCredential", a)).catch(console.error);  
 
     const name = (req.query.name || (req.body && req.body.name));
     const responseMessage = name
