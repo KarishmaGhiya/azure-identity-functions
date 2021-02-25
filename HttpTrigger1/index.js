@@ -4,8 +4,8 @@ module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     process.env.AZURE_LOG_LEVEL = "verbose";
-    const credential = identity.DefaultAzureCredential();
-    await credential.getToken("https://vault.azure.net/")  
+    const credential = new identity.DefaultAzureCredential();
+    credential.getToken("https://vault.azure.net/").then(console.log).catch(console.error);  
 
     const name = (req.query.name || (req.body && req.body.name));
     const responseMessage = name
