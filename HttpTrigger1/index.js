@@ -29,6 +29,26 @@ module.exports = async function (context, req) {
     console.error("ManagedIdentityCredential error", e.message);
   }
 
+  console.log("Trying 100 times with the ManagedIdentityCredential");
+  try {
+    let credential = new identity.ManagedIdentityCredential(
+      managedIdentityClientId
+    );
+    const promises = [];
+    for (let i = 0; i < 100; i++) {
+      promises.push(credential.getToken("https://vault.azure.net/"));
+    }
+    try {
+      for (promise of promises) {
+        await promise;
+      }
+    } catch (e) {
+      console.log(`100 times error somewhere`, e);
+    }
+  } catch (e) {
+    console.error("ManagedIdentityCredential error", e.message);
+  }
+
   console.log("Trying the loginWithAppServiceMSI");
   try {
     let credential = await msRestNodeauth.loginWithAppServiceMSI({
