@@ -7,27 +7,27 @@ module.exports = async function (context, req) {
   process.env.AZURE_LOG_LEVEL = "verbose";
   const managedIdentityClientId = "bf031ca3-5eac-4592-a92f-a08a77cbc610";
 
-  console.log("Trying the DefaultAzureCredential");
-  try {
-    let credential = new identity.DefaultAzureCredential({
-      managedIdentityClientId,
-    });
-    const result = await credential.getToken("https://vault.azure.net/");
-    console.log("DefaultAzureCredential", result);
-  } catch (e) {
-    console.error("DefaultAzureCredential error", e.message);
-  }
-
-  console.log("Trying the ManagedIdentityCredential");
-  try {
-    let credential = new identity.ManagedIdentityCredential(
-      managedIdentityClientId
-    );
-    const result = await credential.getToken("https://vault.azure.net/");
-    console.log("ManagedIdentityCredential", result);
-  } catch (e) {
-    console.error("ManagedIdentityCredential error", e.message);
-  }
+  // console.log("Trying the DefaultAzureCredential");
+  // try {
+  //   let credential = new identity.DefaultAzureCredential({
+  //     managedIdentityClientId,
+  //   });
+  //   const result = await credential.getToken("https://vault.azure.net/");
+  //   console.log("DefaultAzureCredential", result);
+  // } catch (e) {
+  //   console.error("DefaultAzureCredential error", e.message);
+  // }
+// 
+  // console.log("Trying the ManagedIdentityCredential");
+  // try {
+  //   let credential = new identity.ManagedIdentityCredential(
+  //     managedIdentityClientId
+  //   );
+  //   const result = await credential.getToken("https://vault.azure.net/");
+  //   console.log("ManagedIdentityCredential", result);
+  // } catch (e) {
+  //   console.error("ManagedIdentityCredential error", e.message);
+  // }
 
   console.log("Trying 100 times with the ManagedIdentityCredential");
   try {
@@ -45,16 +45,16 @@ module.exports = async function (context, req) {
     console.log(`100 times ManagedIdentityCredential error somewhere`, e);
   }
 
-  console.log("Trying the loginWithAppServiceMSI");
-  try {
-    let credential = await msRestNodeauth.loginWithAppServiceMSI({
-      clientId: managedIdentityClientId,
-    });
-    const result = await credential.getToken("https://vault.azure.net/");
-    console.log("loginWithAppServiceMSI", result);
-  } catch (e) {
-    console.error("loginWithAppServiceMSI error", e.message);
-  }
+  // console.log("Trying the loginWithAppServiceMSI");
+  // try {
+  //   let credential = await msRestNodeauth.loginWithAppServiceMSI({
+  //     clientId: managedIdentityClientId,
+  //   });
+  //   const result = await credential.getToken("https://vault.azure.net/");
+  //   console.log("loginWithAppServiceMSI", result);
+  // } catch (e) {
+  //   console.error("loginWithAppServiceMSI error", e.message);
+  // }
 
   console.log("Trying 100 times with the loginWithAppServiceMSI");
   try {
