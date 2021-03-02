@@ -38,9 +38,9 @@ module.exports = async function (context, req) {
     for (let i = 0; i < 100; i++) {
       promises.push(credential.getToken("https://vault.azure.net/"));
     }
-      for (promise of promises) {
-        await promise;
-      }
+    for (promise of promises) {
+      await promise;
+    }
   } catch (e) {
     console.log(`100 times ManagedIdentityCredential error somewhere`, e);
   }
@@ -65,10 +65,8 @@ module.exports = async function (context, req) {
     for (let i = 0; i < 100; i++) {
       promises.push(credential.getToken("https://vault.azure.net/"));
     }
-    try {
-      for (promise of promises) {
-        await promise;
-      }
+    for (promise of promises) {
+      await promise;
     }
   } catch (e) {
     console.log(`100 times loginWithAppServiceMSI error somewhere`, e);
