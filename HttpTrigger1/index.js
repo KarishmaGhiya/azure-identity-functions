@@ -29,20 +29,37 @@ module.exports = async function (context, req) {
   //   console.error("ManagedIdentityCredential error", e.message);
   // }
 
-  console.log("Trying 100 times with the ManagedIdentityCredential");
+  const tries = 10;
+
+  console.log(`Trying ${tries} times with the ManagedIdentityCredential without parameters`);
+  try {
+    let credential = new identity.ManagedIdentityCredential();
+    const promises = [];
+    for (let i = 0; i < tries; i++) {
+      promises.push(credential.getToken("https://graph.microsoft.com/.default"));
+    }
+    for (promise of promises) {
+      await promise;
+    }
+  } catch (e) {
+    console.log(`${tries} times ManagedIdentityCredential without parameters error somewhere`, e);
+  }
+
+
+  console.log(`Trying ${tries} times with the ManagedIdentityCredential`);
   try {
     let credential = new identity.ManagedIdentityCredential(
       managedIdentityClientId
     );
     const promises = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < tries; i++) {
       promises.push(credential.getToken("https://vault.azure.net/"));
     }
     for (promise of promises) {
       await promise;
     }
   } catch (e) {
-    console.log(`100 times ManagedIdentityCredential error somewhere`, e);
+    console.log(`${tries} times ManagedIdentityCredential error somewhere`, e);
   }
 
   // console.log("Trying the loginWithAppServiceMSI");
@@ -56,20 +73,20 @@ module.exports = async function (context, req) {
   //   console.error("loginWithAppServiceMSI error", e.message);
   // }
 
-  console.log("Trying 100 times with the loginWithAppServiceMSI");
+  console.log(`Trying ${tries} times with the loginWithAppServiceMSI`);
   try {
     let credential = await msRestNodeauth.loginWithAppServiceMSI({
       clientId: managedIdentityClientId,
     });
     const promises = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < tries; i++) {
       promises.push(credential.getToken("https://vault.azure.net/"));
     }
     for (promise of promises) {
       await promise;
     }
   } catch (e) {
-    console.log(`100 times loginWithAppServiceMSI error somewhere`, e);
+    console.log(`${tries} times loginWithAppServiceMSI error somewhere`, e);
   }
 
   const name = req.query.name || (req.body && req.body.name);
