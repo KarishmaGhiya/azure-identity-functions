@@ -30,7 +30,7 @@ module.exports = async function (context, req) {
   // }
 
   const tries = 10;
-  const totalTokensFound = 0;
+  let totalTokensFound = 0;
 
   console.log(`Trying ${tries} times with the ManagedIdentityCredential without parameters`);
   try {
