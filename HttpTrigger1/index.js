@@ -41,6 +41,7 @@ module.exports = async function (context, req) {
     }
     for (promise of promises) {
       const result = await promise;
+      console.log("RESULT", totalTokensFound, result);
       if (result && result.token) {
         totalTokensFound++;
       }
