@@ -41,7 +41,7 @@ module.exports = async function (context, req) {
     }
     for (promise of promises) {
       const result = await promise;
-      if (result.accessToken) {
+      if (result && result.token) {
         totalTokensFound++;
       }
     }
@@ -62,7 +62,7 @@ module.exports = async function (context, req) {
     }
     for (promise of promises) {
       const result = await promise;
-      if (result.accessToken) {
+      if (result && result.token) {
         totalTokensFound++;
       }
     }
@@ -94,7 +94,7 @@ module.exports = async function (context, req) {
     }
     for (promise of promises) {
       const result = await promise;
-      if (result.accessToken) {
+      if (result) {
         totalTokensFound++;
       }
     }
