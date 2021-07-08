@@ -30,6 +30,7 @@ module.exports = async function (context, req) {
   // }
 
   const tries = 10;
+  const totalTokensFound = 0;
 
   console.log(`Trying ${tries} times with the ManagedIdentityCredential without parameters`);
   try {
@@ -39,12 +40,16 @@ module.exports = async function (context, req) {
       promises.push(credential.getToken("https://graph.microsoft.com/.default"));
     }
     for (promise of promises) {
-      await promise;
+      const result = await promise;
+      if (result.accessToken) {
+        totalTokensFound++;
+      }
     }
   } catch (e) {
     console.log(`${tries} times ManagedIdentityCredential without parameters error somewhere`, e);
   }
 
+  console.log(`Total tokens found: ${totalTokensFound}`);
 
   console.log(`Trying ${tries} times with the ManagedIdentityCredential`);
   try {
@@ -56,7 +61,10 @@ module.exports = async function (context, req) {
       promises.push(credential.getToken("https://vault.azure.net/"));
     }
     for (promise of promises) {
-      await promise;
+      const result = await promise;
+      if (result.accessToken) {
+        totalTokensFound++;
+      }
     }
   } catch (e) {
     console.log(`${tries} times ManagedIdentityCredential error somewhere`, e);
@@ -73,6 +81,8 @@ module.exports = async function (context, req) {
   //   console.error("loginWithAppServiceMSI error", e.message);
   // }
 
+  console.log(`Total tokens found: ${totalTokensFound}`);
+
   console.log(`Trying ${tries} times with the loginWithAppServiceMSI`);
   try {
     let credential = await msRestNodeauth.loginWithAppServiceMSI({
@@ -83,11 +93,16 @@ module.exports = async function (context, req) {
       promises.push(credential.getToken("https://vault.azure.net/"));
     }
     for (promise of promises) {
-      await promise;
+      const result = await promise;
+      if (result.accessToken) {
+        totalTokensFound++;
+      }
     }
   } catch (e) {
     console.log(`${tries} times loginWithAppServiceMSI error somewhere`, e);
   }
+
+  console.log(`Total tokens found: ${totalTokensFound}`);
 
   const name = req.query.name || (req.body && req.body.name);
   const responseMessage = name
