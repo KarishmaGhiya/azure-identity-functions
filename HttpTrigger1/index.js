@@ -32,6 +32,26 @@ module.exports = async function (context, req) {
   const tries = 10;
   let totalTokensFound = 0;
 
+  console.log(`Trying ${tries} times with the DefaultAzureCredential without parameters`);
+  try {
+    let credential = new identity.DefaultAzureCredential();
+    const promises = [];
+    for (let i = 0; i < tries; i++) {
+      promises.push(credential.getToken("https://graph.microsoft.com/.default"));
+    }
+    for (promise of promises) {
+      const result = await promise;
+      if (result && result.token) {
+        console.log("RESULT", totalTokensFound, result.token);
+        totalTokensFound++;
+      }
+    }
+  } catch (e) {
+    console.log(`${tries} times DefaultAzureCredential without parameters error somewhere`, e);
+  }
+
+  console.log(`Total tokens found: ${totalTokensFound}`);
+
   console.log(`Trying ${tries} times with the ManagedIdentityCredential without parameters`);
   try {
     let credential = new identity.ManagedIdentityCredential();
@@ -41,7 +61,6 @@ module.exports = async function (context, req) {
     }
     for (promise of promises) {
       const result = await promise;
-      console.log("RESULT", totalTokensFound, result);
       if (result && result.token) {
         totalTokensFound++;
       }
@@ -49,7 +68,6 @@ module.exports = async function (context, req) {
   } catch (e) {
     console.log(`${tries} times ManagedIdentityCredential without parameters error somewhere`, e);
   }
-
   console.log(`Total tokens found: ${totalTokensFound}`);
 
   console.log(`Trying ${tries} times with the ManagedIdentityCredential`);
