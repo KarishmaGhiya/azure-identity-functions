@@ -30,7 +30,7 @@ module.exports = async function (context, req) {
   // }
 
   const tries = 10;
-  let totalTokensFound = 0;
+  const tokens = [];
 
   console.log(`Trying ${tries} times with the DefaultAzureCredential without parameters`);
   try {
@@ -42,15 +42,15 @@ module.exports = async function (context, req) {
     for (promise of promises) {
       const result = await promise;
       if (result && result.token) {
-        console.log("RESULT", totalTokensFound, result.token);
-        totalTokensFound++;
+        tokens.push(result);
+        console.log("RESULT", tokens.length, result);
       }
     }
   } catch (e) {
     console.log(`${tries} times DefaultAzureCredential without parameters error somewhere`, e);
   }
 
-  console.log(`Total tokens found: ${totalTokensFound}`);
+  console.log(`Total tokens found: ${tokens.length}`);
 
   console.log(`Trying ${tries} times with the ManagedIdentityCredential without parameters`);
   try {
@@ -62,13 +62,13 @@ module.exports = async function (context, req) {
     for (promise of promises) {
       const result = await promise;
       if (result && result.token) {
-        totalTokensFound++;
+        tokens.push(result);
       }
     }
   } catch (e) {
     console.log(`${tries} times ManagedIdentityCredential without parameters error somewhere`, e);
   }
-  console.log(`Total tokens found: ${totalTokensFound}`);
+  console.log(`Total tokens found: ${tokens.length}`);
 
   console.log(`Trying ${tries} times with the ManagedIdentityCredential`);
   try {
@@ -82,7 +82,7 @@ module.exports = async function (context, req) {
     for (promise of promises) {
       const result = await promise;
       if (result && result.token) {
-        totalTokensFound++;
+        tokens.push(result);
       }
     }
   } catch (e) {
@@ -100,7 +100,7 @@ module.exports = async function (context, req) {
   //   console.error("loginWithAppServiceMSI error", e.message);
   // }
 
-  console.log(`Total tokens found: ${totalTokensFound}`);
+  console.log(`Total tokens found: ${tokens.length}`);
 
   console.log(`Trying ${tries} times with the loginWithAppServiceMSI`);
   try {
@@ -114,14 +114,15 @@ module.exports = async function (context, req) {
     for (promise of promises) {
       const result = await promise;
       if (result) {
-        totalTokensFound++;
+        tokens.push(result);
       }
     }
   } catch (e) {
     console.log(`${tries} times loginWithAppServiceMSI error somewhere`, e);
   }
 
-  console.log(`Total tokens found: ${totalTokensFound}`);
+  console.log(`Total tokens found: ${tokens.length}`);
+  console.log(JSON.stringify(tokens));
 
   const name = req.query.name || (req.body && req.body.name);
   const responseMessage = name
