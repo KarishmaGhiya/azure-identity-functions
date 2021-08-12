@@ -41,4 +41,4 @@ jobs:
         app-name: 'danrodri-fn-3'
         slot-name: 'production'
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_14d2cd240c7a4874a54f6e383c20bb92 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_0b847672e6b2428e875768265cbead19 }}
