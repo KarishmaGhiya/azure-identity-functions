@@ -8,7 +8,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/identity": "^1.5.0",
+    "@azure/identity": "./azure-identity-1.5.1.tgz",
     "@azure/ms-rest-nodeauth": "^3.0.7"
   },
   "devDependencies": {
