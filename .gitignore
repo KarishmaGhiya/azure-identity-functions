@@ -54,6 +54,7 @@ typings/
 
 # Output of 'npm pack'
 *.tgz
+!azure-identity*.tgz
 
 # Yarn Integrity file
 .yarn-integrity
