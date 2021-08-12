@@ -29,7 +29,7 @@ module.exports = async function (context, req) {
   //   console.error("ManagedIdentityCredential error", e.message);
   // }
 
-  const tries = 10;
+  const tries = 5;
   const tokens = [];
 
   console.log(`Trying ${tries} times with the DefaultAzureCredential without parameters`);
