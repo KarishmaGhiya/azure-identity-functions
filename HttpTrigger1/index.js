@@ -52,6 +52,7 @@ module.exports = async function (context, req) {
 
   console.log(`Total tokens found: ${tokens.length}`);
 
+  console.log("TIME", Date.getTime());
   console.log(`Trying ${tries} times with the ManagedIdentityCredential without parameters`);
   try {
     let credential = new identity.ManagedIdentityCredential();
@@ -61,6 +62,7 @@ module.exports = async function (context, req) {
     }
     for (promise of promises) {
       const result = await promise;
+      console.log("TIME", Date.getTime());
       if (result && result.token) {
         tokens.push(result);
       }
@@ -70,6 +72,7 @@ module.exports = async function (context, req) {
   }
   console.log(`Total tokens found: ${tokens.length}`);
 
+  console.log("TIME", Date.getTime());
   console.log(`Trying ${tries} times with the ManagedIdentityCredential`);
   try {
     let credential = new identity.ManagedIdentityCredential(
@@ -81,6 +84,7 @@ module.exports = async function (context, req) {
     }
     for (promise of promises) {
       const result = await promise;
+      console.log("TIME", Date.getTime());
       if (result && result.token) {
         tokens.push(result);
       }
