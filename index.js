@@ -28,7 +28,7 @@ async function main(context, req) {
   //   console.error("ManagedIdentityCredential error", e.message);
   // }
 
-  const tries = 5;
+  const tries = 1;
   const tokens = [];
 
   console.log(
@@ -84,29 +84,6 @@ async function main(context, req) {
     );
   }
   console.log(`Total tokens found: ${tokens.length}`);
-
-  console.log("TIME", Date.now());
-  console.log(`Trying ${tries} times with the ManagedIdentityCredential`);
-  try {
-    let credential = new identity.ManagedIdentityCredential(
-      managedIdentityClientId
-    );
-    const promises = [];
-    for (let i = 0; i < tries; i++) {
-      promises.push(credential.getToken("https://vault.azure.net/"));
-    }
-    for (promise of promises) {
-      const result = await promise;
-      console.log("TIME", Date.now());
-      if (result && result.token) {
-        tokens.push(result);
-      }
-    }
-  } catch (e) {
-    console.log(`${tries} times ManagedIdentityCredential error somewhere`, e);
-  }
-
-  console.log(`Total tokens found: ${tokens.length}`);
   return `Total tokens found: ${tokens.length}`;
 }
 
@@ -116,15 +93,10 @@ const port = 8080;
 const fs = require("fs");
 
 app.get("/", async (req, res) => {
-  const result = fs.readFileSync("file", { encoding: "utf8" });
+  const result = await main();
   res.send(`RESULT:\n${result}`);
 });
 
-app.listen(port, async () => {
+app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-  try {
-    fs.writeFileSyn("file", await main(), { encoding: "utf8" });
-  } catch(e) {
-    fs.writeFileSyn("file", e.message, { encoding: "utf8" });
-  }
 });
