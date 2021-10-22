@@ -1,5 +1,4 @@
 const identity = require("@azure/identity");
-const msRestNodeauth = require("@azure/ms-rest-nodeauth");
 
 async function main(context, req) {
   console.log("JavaScript HTTP trigger function processed a request.");
@@ -105,38 +104,6 @@ async function main(context, req) {
     }
   } catch (e) {
     console.log(`${tries} times ManagedIdentityCredential error somewhere`, e);
-  }
-
-  // console.log("Trying the loginWithAppServiceMSI");
-  // try {
-  //   let credential = await msRestNodeauth.loginWithAppServiceMSI({
-  //     clientId: managedIdentityClientId,
-  //   });
-  //   const result = await credential.getToken("https://vault.azure.net/");
-  //   console.log("loginWithAppServiceMSI", result);
-  // } catch (e) {
-  //   console.error("loginWithAppServiceMSI error", e.message);
-  // }
-
-  console.log(`Total tokens found: ${tokens.length}`);
-
-  console.log(`Trying ${tries} times with the loginWithAppServiceMSI`);
-  try {
-    let credential = await msRestNodeauth.loginWithAppServiceMSI({
-      clientId: managedIdentityClientId,
-    });
-    const promises = [];
-    for (let i = 0; i < tries; i++) {
-      promises.push(credential.getToken("https://vault.azure.net/"));
-    }
-    for (promise of promises) {
-      const result = await promise;
-      if (result) {
-        tokens.push(result);
-      }
-    }
-  } catch (e) {
-    console.log(`${tries} times loginWithAppServiceMSI error somewhere`, e);
   }
 
   console.log(`Total tokens found: ${tokens.length}`);
