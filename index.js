@@ -2,7 +2,7 @@ const identity = require("@azure/identity");
 const msRestNodeauth = require("@azure/ms-rest-nodeauth");
 
 async function main(context, req) {
-  context.log("JavaScript HTTP trigger function processed a request.");
+  console.log("JavaScript HTTP trigger function processed a request.");
 
   process.env.AZURE_LOG_LEVEL = "verbose";
   const managedIdentityClientId = "bf031ca3-5eac-4592-a92f-a08a77cbc610";
@@ -146,7 +146,7 @@ async function main(context, req) {
   const responseMessage = name
     ? "Hello, " + name + ". This HTTP triggered function executed successfully."
     : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
-}
+};
 
 const express = require("express");
 const app = express();
