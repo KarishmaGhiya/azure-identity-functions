@@ -107,24 +107,17 @@ async function main(context, req) {
   }
 
   console.log(`Total tokens found: ${tokens.length}`);
-  console.log(JSON.stringify(tokens));
-
-  const name = req.query.name || (req.body && req.body.name);
-  const responseMessage = name
-    ? "Hello, " + name + ". This HTTP triggered function executed successfully."
-    : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+  return `Total tokens found: ${tokens.length}`;
 }
 
 const express = require("express");
 const app = express();
 const port = 8080;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-  main().then(console.log).catch(console.error);
+app.get("/", async (req, res) => {
+  res.send(await main());
 });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-  main().then(console.log).catch(console.error);
 });
