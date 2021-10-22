@@ -62,6 +62,7 @@ async function main(context, req) {
     "?api-version=2019-07-01-preview&resource=https://graph.microsoft.com/";
   let url = process.env.MSI_ENDPOINT + query;
   const http = require("http");
+  let data = "";
   const req2 = http.get(
     url,
     {
@@ -70,8 +71,9 @@ async function main(context, req) {
     (res) => {
       console.log(`statusCode: ${res.statusCode}`);
       res.on("data", (d) => {
-        console.log("DATA", d);
+        data += d.toString("utf8");
       });
+      res.on("end", () => console.log("DATA", data));
     }
   );
   req2.on("error", (error) => {
