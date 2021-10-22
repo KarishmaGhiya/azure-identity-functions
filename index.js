@@ -31,33 +31,6 @@ async function main(context, req) {
   const tries = 1;
   const tokens = [];
 
-  console.log(
-    `Trying ${tries} times with the DefaultAzureCredential without parameters`
-  );
-  try {
-    let credential = new identity.DefaultAzureCredential();
-    const promises = [];
-    for (let i = 0; i < tries; i++) {
-      promises.push(
-        credential.getToken("https://graph.microsoft.com/.default")
-      );
-    }
-    for (promise of promises) {
-      const result = await promise;
-      if (result && result.token) {
-        tokens.push(result);
-        console.log("RESULT", tokens.length, result);
-      }
-    }
-  } catch (e) {
-    console.log(
-      `${tries} times DefaultAzureCredential without parameters error somewhere`,
-      e
-    );
-  }
-
-  console.log(`Total tokens found: ${tokens.length}`);
-
   console.log("TIME", Date.now());
   console.log(
     `Trying ${tries} times with the ManagedIdentityCredential without parameters`
