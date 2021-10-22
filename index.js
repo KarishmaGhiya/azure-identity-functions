@@ -61,7 +61,8 @@ async function main(context, req) {
   let query =
     "?api-version=2019-07-01-preview&resource=https://graph.microsoft.com/";
   let url = process.env.MSI_ENDPOINT + query;
-  const req2 = https.get(
+  const http = require("http");
+  const req2 = http.get(
     url,
     {
       headers: { secret: process.env.MSI_SECRET },
