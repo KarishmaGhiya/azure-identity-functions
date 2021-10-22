@@ -121,11 +121,13 @@ app.get("/", async (req, res) => {
 
 async function listen() {
   try {
-    result = await main();
+    result = `RESULT: ${await main()}`;
   } catch(e) {
-    result = e.message;
+    result = `ERROR: ${e.message}`;
   }
   app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
   });
 }
+
+listen();
