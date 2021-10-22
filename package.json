@@ -4,12 +4,11 @@
   "description": "",
   "scripts": {
     "start": "node index",
-    "format": "prettier --write \"HttpTrigger1/*.js\"",
+    "format": "prettier --write \"HttpTrigger1/*.js\" \"index.js\"",
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
     "@azure/identity": "./azure-identity-2.0.0.tgz",
-    "@azure/ms-rest-nodeauth": "^3.0.7",
     "express": "^4.17.1"
   },
   "devDependencies": {

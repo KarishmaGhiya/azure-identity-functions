@@ -17,7 +17,7 @@ async function main(context, req) {
   // } catch (e) {
   //   console.error("DefaultAzureCredential error", e.message);
   // }
-// 
+  //
   // console.log("Trying the ManagedIdentityCredential");
   // try {
   //   let credential = new identity.ManagedIdentityCredential(
@@ -32,12 +32,16 @@ async function main(context, req) {
   const tries = 5;
   const tokens = [];
 
-  console.log(`Trying ${tries} times with the DefaultAzureCredential without parameters`);
+  console.log(
+    `Trying ${tries} times with the DefaultAzureCredential without parameters`
+  );
   try {
     let credential = new identity.DefaultAzureCredential();
     const promises = [];
     for (let i = 0; i < tries; i++) {
-      promises.push(credential.getToken("https://graph.microsoft.com/.default"));
+      promises.push(
+        credential.getToken("https://graph.microsoft.com/.default")
+      );
     }
     for (promise of promises) {
       const result = await promise;
@@ -47,18 +51,25 @@ async function main(context, req) {
       }
     }
   } catch (e) {
-    console.log(`${tries} times DefaultAzureCredential without parameters error somewhere`, e);
+    console.log(
+      `${tries} times DefaultAzureCredential without parameters error somewhere`,
+      e
+    );
   }
 
   console.log(`Total tokens found: ${tokens.length}`);
 
   console.log("TIME", Date.now());
-  console.log(`Trying ${tries} times with the ManagedIdentityCredential without parameters`);
+  console.log(
+    `Trying ${tries} times with the ManagedIdentityCredential without parameters`
+  );
   try {
     let credential = new identity.ManagedIdentityCredential();
     const promises = [];
     for (let i = 0; i < tries; i++) {
-      promises.push(credential.getToken("https://graph.microsoft.com/.default"));
+      promises.push(
+        credential.getToken("https://graph.microsoft.com/.default")
+      );
     }
     for (promise of promises) {
       const result = await promise;
@@ -68,7 +79,10 @@ async function main(context, req) {
       }
     }
   } catch (e) {
-    console.log(`${tries} times ManagedIdentityCredential without parameters error somewhere`, e);
+    console.log(
+      `${tries} times ManagedIdentityCredential without parameters error somewhere`,
+      e
+    );
   }
   console.log(`Total tokens found: ${tokens.length}`);
 
@@ -134,16 +148,16 @@ async function main(context, req) {
     : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
 }
 
-const express = require('express')
-const app = express()
-const port = 8080
+const express = require("express");
+const app = express();
+const port = 8080;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+app.get("/", (req, res) => {
+  res.send("Hello World!");
   main().then(console.log).catch(console.error);
-})
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${port}`);
   main().then(console.log).catch(console.error);
-})
+});
