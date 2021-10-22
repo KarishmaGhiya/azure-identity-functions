@@ -57,7 +57,26 @@ async function main(context, req) {
     );
   }
   console.log(`Total tokens found: ${tokens.length}`);
-  return `Total tokens found: ${tokens.length}`;
+
+  let query =
+    "?api-version=2019-07-01-preview&resource=https://graph.microsoft.com/";
+  let url = process.env.MSI_ENDPOINT + query;
+  const req2 = https.get(
+    url,
+    {
+      headers: { secret: process.env.MSI_SECRET },
+    },
+    (res) => {
+      console.log(`statusCode: ${res.statusCode}`);
+      res.on("data", (d) => {
+        console.log("DATA", d);
+      });
+    }
+  );
+  req2.on("error", (error) => {
+    console.log("ERROR", error);
+  });
+  req2.end();
 }
 
 const express = require("express");
