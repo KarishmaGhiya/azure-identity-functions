@@ -59,19 +59,22 @@ async function main(context, req) {
   console.log(`Total tokens found: ${tokens.length}`);
 
   let query =
-    "?api-version=2019-07-01-preview&resource=https://graph.microsoft.com/";
+    "?api-version=2017-09-01&resource=https://graph.microsoft.com/";
   let url = process.env.MSI_ENDPOINT + query;
   const http = require("http");
   let data = "";
   const req2 = http.get(
     url,
     {
-      headers: { secret: process.env.MSI_SECRET },
+      headers: {
+        Accept: "application/json",
+        secret: process.env.MSI_SECRET
+      },
     },
     (res) => {
       console.log(`statusCode: ${res.statusCode}`);
       res.on("data", (d) => {
-        data += d.toString("utf8");
+        data += Buffer.from(d).toString("utf8");
       });
       res.on("end", () => console.log("DATA", data));
     }
