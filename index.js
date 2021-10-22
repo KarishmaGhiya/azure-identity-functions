@@ -116,16 +116,16 @@ const port = 8080;
 
 let result = "";
 app.get("/", async (req, res) => {
-  main()
-    .then((x) => {
-      result = `${result}\n${x}`;
-    })
-    .catch((e) => {
-      result = `${result}\n${e.message ? e.message : e}`;
-    });
   res.send(`RESULT:\n${result}`);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+async function listen() {
+  try {
+    result = await main();
+  } catch(e) {
+    result = e.message;
+  }
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  });
+}
