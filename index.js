@@ -113,21 +113,18 @@ async function main(context, req) {
 const express = require("express");
 const app = express();
 const port = 8080;
+const fs = require("fs");
 
-let result = "";
 app.get("/", async (req, res) => {
+  const result = fs.readFileSync("file", { encoding: "utf8" });
   res.send(`RESULT:\n${result}`);
 });
 
-async function listen() {
+app.listen(port, async () => {
+  console.log(`Example app listening at http://localhost:${port}`);
   try {
-    result = `RESULT: ${await main()}`;
+    fs.writeFileSyn("file", await main(), { encoding: "utf8" });
   } catch(e) {
-    result = `ERROR: ${e.message}`;
+    fs.writeFileSyn("file", e.message, { encoding: "utf8" });
   }
-  app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-  });
-}
-
-listen();
+});
