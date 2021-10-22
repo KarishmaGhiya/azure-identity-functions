@@ -134,4 +134,16 @@ async function main(context, req) {
     : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
 }
 
-main().then(console.log).catch(console.error);
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+  main().then(console.log).catch(console.error);
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+  main().then(console.log).catch(console.error);
+})
