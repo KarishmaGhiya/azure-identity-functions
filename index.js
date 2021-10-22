@@ -114,8 +114,16 @@ const express = require("express");
 const app = express();
 const port = 8080;
 
+let result = "";
 app.get("/", async (req, res) => {
-  res.send(await main());
+  main()
+    .then((x) => {
+      result = `${result}\n${x}`;
+    })
+    .catch((e) => {
+      result = `${result}\n${e.message ? e.message : e}`;
+    });
+  res.send(`RESULT:\n${result}`);
 });
 
 app.listen(port, () => {
